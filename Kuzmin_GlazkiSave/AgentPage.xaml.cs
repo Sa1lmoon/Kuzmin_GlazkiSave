@@ -127,7 +127,25 @@ namespace Kuzmin_GlazkiSave
         {
 
         }
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new AddEditPage(null));
+        }
 
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Grid_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (Visibility == Visibility.Visible)
+            {
+                Kuzmin_GlazkiEntities.GetContext().ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
+                AgentListView.ItemsSource = Kuzmin_GlazkiEntities.GetContext().Agent.ToList();
+
+            }
+        }
         private void TBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             // серч
@@ -248,14 +266,8 @@ namespace Kuzmin_GlazkiSave
             ChangePage(2, null);
         }
 
-        private void AddButton_Click(object sender, RoutedEventArgs e)
-        {
-            Manager.MainFrame.Navigate(new AddEditPage(null));
-        }
+        
 
-        private void EditButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+       
     }
 }

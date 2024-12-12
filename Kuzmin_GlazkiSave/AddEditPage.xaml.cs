@@ -92,7 +92,7 @@ namespace Kuzmin_GlazkiSave
                 MessageBox.Show(errors.ToString());
                 return;
             }
-            _currentAgent.AgentTypeID = ComboType.SelectedIndex;
+            _currentAgent.AgentTypeID = ComboType.SelectedIndex=+1;
             //добавить в контекст текущие значения новой услуги
             if (_currentAgent.ID == 0)
                 Kuzmin_GlazkiEntities.GetContext().Agent.Add(_currentAgent);
