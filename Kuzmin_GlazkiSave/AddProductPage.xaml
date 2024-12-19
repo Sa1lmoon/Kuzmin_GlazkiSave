@@ -1,0 +1,33 @@
+﻿<Window x:Class="Kuzmin_GlazkiSave.AddProductPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Kuzmin_GlazkiSave"
+        mc:Ignorable="d"
+        Title="AddProductPage" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+
+        <TextBlock Text="Название Реализации" FontSize="16" Height="20" MinWidth="120" Width="auto" Margin="15" VerticalAlignment="Top"></TextBlock>
+        <TextBox Name="TBoxSearhProduct" TextChanged="TBoxSearhProduct_TextChanged"  Width="270" Height="25" FontSize="15" VerticalAlignment="Top"></TextBox>
+        <ComboBox Name="ProductComboBox" SelectionChanged="ProductComboBox_SelectionChanged"  Height="30" Width="270" FontSize="15" VerticalAlignment="Center"></ComboBox>
+        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal">
+            <TextBlock Text="Дата продажи" FontSize="15" Height="20" MinWidth="120" Width="auto" Margin="5"></TextBlock>
+            <DatePicker Grid.Column="1" Grid.Row="3" Height="30" Width="200" FontSize="20"  Name="StartDate" HorizontalAlignment="Left"></DatePicker>
+
+        </StackPanel>
+        <StackPanel Grid.Column="0" Grid.Row="3" Orientation="Horizontal">
+            <TextBlock Text="Кол-во товаров" FontSize="15" Height="20" MinWidth="120" Width="auto" Margin="5"></TextBlock>
+            <TextBox Text="{Binding ProductCount}" Name="TBoxCountProduct"  FontSize="15" Height="20" Width="400"></TextBox>
+        </StackPanel>
+        <Button Content="Сохранить" Name="SaveBtn" Click="SaveBtn_Click"  Height="40" Width="300" Grid.Row="4" HorizontalAlignment="Right"></Button>
+    </Grid>
+</Window>

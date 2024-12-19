@@ -82,6 +82,7 @@
         </StackPanel>
         
         <StackPanel Grid.Column="1" Grid.Row="6" Orientation="Horizontal">
+            <Button Content="История реализации" Width="200" Name="RealizeHistoryBtn" Click="RealizeHistoryBtn_Click"  Margin="5"></Button>
             <Button Content="Сохранить" Name="SaveBtn" Click="SaveBtn_Click" Margin="5"></Button>
             <Button Content="Удалить" Name="DeleteBtn" Click="DeleteBtn_Click" Margin="5" 
                     Opacity="{Binding ID}"></Button>

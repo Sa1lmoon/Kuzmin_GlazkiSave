@@ -65,7 +65,7 @@
             <Button Content="Добавить агента" Name="AddButton" Click="AddButton_Click" 
         HorizontalAlignment="Right" VerticalAlignment="Bottom"></Button>
             <Button Width="190" Content="Сменить приоритет" Name="ChangePriority" Click='ChangePriority_Click' 
-        HorizontalAlignment="Right" VerticalAlignment="Bottom"></Button>
+        HorizontalAlignment="Right" VerticalAlignment="Bottom" Visibility="Hidden"></Button>
         </StackPanel>
         <ListView Name="AgentListView" Grid.Row="2" SelectionChanged="AgentListView_SelectionChanged">
             <ListView.ItemTemplate>
@@ -78,7 +78,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
@@ -92,10 +92,10 @@
                         <TextBlock Text="{Binding discription, StringFormat={} Скидка: {0}%}" Grid.Column="2"  Grid.Row="1" HorizontalAlignment="Left" FontSize="20"></TextBlock>
                         <Button Content="Редактировать" Name="EditButton" Click="EditButton_Click" Grid.Column="2" Grid.Row="2"  
                                     Margin="4" HorizontalAlignment="Right" VerticalAlignment="Bottom"></Button>
-                        <TextBlock Text="{Binding Phone}" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" FontSize="15"></TextBlock>
-                        <TextBlock Text="{Binding Prod, StringFormat={} Продажи за год: {0}}" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" FontSize="15"></TextBlock>
-                        <TextBlock Text="{Binding Priority, StringFormat={} Приоритетность: {0}}" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" FontSize="15"></TextBlock>
-                        <Image Width="200" Grid.Column="0" Grid.RowSpan="4" Stretch="UniformToFill" HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding Phone}" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" FontSize="15"></TextBlock>
+                        <TextBlock Text="{Binding Prod, StringFormat={} Продажи за год: {0}}" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" FontSize="15"></TextBlock>
+                        <TextBlock Text="{Binding Priority, StringFormat={} Приоритетность: {0}}" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" FontSize="15"></TextBlock>
+                        <Image Width="200"  Grid.Column="0" Grid.RowSpan="5" Grid.Row="0" Stretch="UniformToFill" HorizontalAlignment="Center">
                             <Image.Source>
                                 <Binding Path="Logo">
                                     <Binding.TargetNullValue>

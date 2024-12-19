@@ -32,5 +32,12 @@ namespace Kuzmin_GlazkiSave
             }
             
         }
+        public string GetProductName
+        {
+            get
+            {
+                return Product.Title;
+            }
+        }
     }
 }

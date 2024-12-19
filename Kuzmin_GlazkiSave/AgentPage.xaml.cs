@@ -268,11 +268,13 @@ namespace Kuzmin_GlazkiSave
         }
         private void AgentListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (AgentListView.SelectedItems.Count > 1) 
-               ChangePriority.Visibility = Visibility.Visible;
+            if (AgentListView.SelectedItems.Count > 1)
+            {
+                ChangePriority.Visibility = Visibility.Visible;
+            }
             else
-               ChangePriority.Visibility= Visibility.Hidden;
-         }
+                ChangePriority.Visibility = Visibility.Hidden;
+        }
         private void ChangePriority_Click(object sender, RoutedEventArgs e)
         {
             int maxPriority = 0;    

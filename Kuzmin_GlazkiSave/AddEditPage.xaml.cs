@@ -136,5 +136,11 @@ namespace Kuzmin_GlazkiSave
                 }
             }
         }
+
+        private void RealizeHistoryBtn_Click(object sender, RoutedEventArgs e)
+        {
+            HistorySales window = new HistorySales(_currentAgent);
+            window.ShowDialog();
+        }
     }
 }
