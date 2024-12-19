@@ -21,5 +21,16 @@ namespace Kuzmin_GlazkiSave
         public int ProductCount { get; set; }
     
         public virtual Agent Agent { get; set; }
+        public virtual Product Product { get; set; }
+
+        public decimal Stoimost
+        {
+            get
+            {
+                decimal s = ProductCount * Product.MinCostForAgent;
+                return s;
+            }
+            
+        }
     }
 }

@@ -14,6 +14,12 @@ namespace Kuzmin_GlazkiSave
     
     public partial class Product
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Product()
+        {
+            this.ProductSale = new HashSet<ProductSale>();
+        }
+    
         public int ID { get; set; }
         public string Title { get; set; }
         public Nullable<int> ProductTypeID { get; set; }
@@ -25,5 +31,7 @@ namespace Kuzmin_GlazkiSave
         public string Image { get; set; }
     
         public virtual ProductType ProductType { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductSale> ProductSale { get; set; }
     }
 }

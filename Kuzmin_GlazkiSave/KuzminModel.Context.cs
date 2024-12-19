@@ -48,6 +48,5 @@ namespace Kuzmin_GlazkiSave
         public virtual DbSet<ProductType> ProductType { get; set; }
         public virtual DbSet<Shop> Shop { get; set; }
         public virtual DbSet<Supplier> Supplier { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
     }
 }

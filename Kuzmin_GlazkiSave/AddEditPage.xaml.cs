@@ -112,6 +112,29 @@ namespace Kuzmin_GlazkiSave
         private void DeleteBtn_Click(object sender, RoutedEventArgs e)
         {
 
+            var currentClientService = Kuzmin_GlazkiEntities.GetContext().ProductSale.ToList();
+            currentClientService = currentClientService.Where(p => p.AgentID == _currentAgent.ID).ToList();
+
+            if (currentClientService.Count != 0)
+                MessageBox.Show("Невозможно удалить");
+            else
+            {
+                if (MessageBox.Show("Вы точно хотите выполнить удаление?", "Внимание!", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {
+                    try
+                    {
+                        Kuzmin_GlazkiEntities.GetContext().Agent.Remove(_currentAgent);
+                        Kuzmin_GlazkiEntities.GetContext().SaveChanges();
+                        Manager.MainFrame.GoBack();
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message.ToString());
+                    }
+
+                }
+            }
         }
     }
 }

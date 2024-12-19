@@ -62,11 +62,11 @@ namespace Kuzmin_GlazkiSave
             }
             if (ComboType.SelectedIndex == 5)
             {
-                currentAgents = currentAgents.OrderBy(p => p.Title).ToList();
+                currentAgents = currentAgents.OrderBy(p => p.discription).ToList();
             }
             if (ComboType.SelectedIndex == 6)
             {
-                currentAgents = currentAgents.OrderBy(p => p.Title).ToList();
+                currentAgents = currentAgents.OrderByDescending(p => p.discription).ToList();
             }
 
             if (Filter.SelectedIndex == 0)
@@ -134,7 +134,8 @@ namespace Kuzmin_GlazkiSave
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-
+            Manager.MainFrame.Navigate(new AddEditPage((sender as Button).DataContext as Agent));
+            UpdateAgents();
         }
 
         private void Grid_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -143,7 +144,7 @@ namespace Kuzmin_GlazkiSave
             {
                 Kuzmin_GlazkiEntities.GetContext().ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
                 AgentListView.ItemsSource = Kuzmin_GlazkiEntities.GetContext().Agent.ToList();
-
+                UpdateAgents();
             }
         }
         private void TBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
@@ -265,9 +266,45 @@ namespace Kuzmin_GlazkiSave
         {
             ChangePage(2, null);
         }
+        private void AgentListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (AgentListView.SelectedItems.Count > 1) 
+               ChangePriority.Visibility = Visibility.Visible;
+            else
+               ChangePriority.Visibility= Visibility.Hidden;
+         }
+        private void ChangePriority_Click(object sender, RoutedEventArgs e)
+        {
+            int maxPriority = 0;    
+            foreach (Agent agent in AgentListView.SelectedItems)
+            {
+                if (agent.Priority > maxPriority)
+                    maxPriority = agent.Priority;
+            }
+            SetWindow myWindow = new SetWindow(maxPriority); myWindow.ShowDialog();
+            if (string.IsNullOrEmpty(myWindow.TBPriority.Text))
+            {
+                MessageBox.Show("Изменения не произошло");
+            }
+            else
+            {
+                int newPriority = Convert.ToInt32(myWindow.TBPriority.Text); 
+                foreach (Agent agent in AgentListView.SelectedItems)
+                {
+                    agent.Priority = newPriority; 
+                }
+            }
 
-        
-
-       
+            try
+            {
+                Kuzmin_GlazkiEntities.GetContext().SaveChanges();
+                MessageBox.Show("информация сохранена");
+                UpdateAgents();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+            }
+        }
     }
 }

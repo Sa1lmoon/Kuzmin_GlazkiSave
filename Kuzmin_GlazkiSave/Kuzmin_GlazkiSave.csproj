@@ -102,13 +102,13 @@
     <Compile Include="ProductType.cs">
       <DependentUpon>KuzminModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SetWindow.xaml.cs">
+      <DependentUpon>SetWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Shop.cs">
       <DependentUpon>KuzminModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Supplier.cs">
-      <DependentUpon>KuzminModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sysdiagrams.cs">
       <DependentUpon>KuzminModel.tt</DependentUpon>
     </Compile>
     <Page Include="AddEditPage.xaml">
@@ -147,6 +147,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SetWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Manager.cs" />
@@ -321,6 +325,9 @@
     <Resource Include="agents\agent_97.png" />
     <Resource Include="agents\agent_98.png" />
     <Resource Include="agents\agent_99.png" />
+    <Resource Include="Properties\picture.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="KuzminModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>KuzminModel.edmx</DependentUpon>
@@ -331,7 +338,6 @@
       <DependentUpon>KuzminModel.edmx</DependentUpon>
       <LastGenOutput>KuzminModel.cs</LastGenOutput>
     </Content>
-    <Resource Include="Properties\picture.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

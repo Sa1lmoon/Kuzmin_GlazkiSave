@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище Kuzmin_ГлазкиModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Хранилище Kuzmin_GlazkiModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Agent">
           <Key>
             <PropertyRef Name="ID" />
@@ -148,16 +148,6 @@
           <Property Name="QualityRating" Type="int" />
           <Property Name="SupplierType" Type="nvarchar" MaxLength="20" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
         <Association Name="FK_Agent_AgentType">
           <End Role="AgentType" Type="Self.AgentType" Multiplicity="0..1" />
           <End Role="Agent" Type="Self.Agent" Multiplicity="*" />
@@ -266,7 +256,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Хранилище Kuzmin_ГлазкиModelContainer">
+        <Association Name="FK_ProductSale_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="ProductSale" Type="Self.ProductSale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ProductSale">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище Kuzmin_GlazkiModelContainer">
           <EntitySet Name="Agent" EntityType="Self.Agent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AgentPriorityHistory" EntityType="Self.AgentPriorityHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AgentType" EntityType="Self.AgentType" Schema="dbo" store:Type="Tables" />
@@ -281,7 +283,6 @@
           <EntitySet Name="ProductType" EntityType="Self.ProductType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Shop" EntityType="Self.Shop" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Agent_AgentType" Association="Self.FK_Agent_AgentType">
             <End Role="AgentType" EntitySet="AgentType" />
             <End Role="Agent" EntitySet="Agent" />
@@ -318,12 +319,16 @@
             <End Role="Agent" EntitySet="Agent" />
             <End Role="ProductSale" EntitySet="ProductSale" />
           </AssociationSet>
+          <AssociationSet Name="FK_ProductSale_Product" Association="Self.FK_ProductSale_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductSale" EntitySet="ProductSale" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="Kuzmin_ГлазкиModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="Kuzmin_GlazkiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Agent">
           <Key>
             <PropertyRef Name="ID" />
@@ -414,6 +419,7 @@
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ProductType" Relationship="Self.FK_Product_ProductType" FromRole="Product" ToRole="ProductType" />
+          <NavigationProperty Name="ProductSale" Relationship="Self.FK_ProductSale_Product" FromRole="Product" ToRole="ProductSale" />
         </EntityType>
         <EntityType Name="ProductCostHistory">
           <Key>
@@ -444,6 +450,7 @@
           <Property Name="SaleDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="ProductCount" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Agent" Relationship="Self.FK_ProductSale_Agent" FromRole="ProductSale" ToRole="Agent" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_ProductSale_Product" FromRole="ProductSale" ToRole="Product" />
         </EntityType>
         <EntityType Name="ProductType">
           <Key>
@@ -474,16 +481,6 @@
           <Property Name="QualityRating" Type="Int32" />
           <Property Name="SupplierType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Material" Relationship="Self.MaterialSupplier" FromRole="Supplier" ToRole="Material" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <Association Name="FK_Agent_AgentType">
           <End Role="AgentType" Type="Self.AgentType" Multiplicity="0..1" />
@@ -569,6 +566,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ProductSale_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="ProductSale" Type="Self.ProductSale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ProductSale">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="MaterialSupplier">
           <End Role="Material" Type="Self.Material" Multiplicity="*" />
           <End Role="Supplier" Type="Self.Supplier" Multiplicity="*" />
@@ -587,7 +596,6 @@
           <EntitySet Name="ProductType" EntityType="Self.ProductType" />
           <EntitySet Name="Shop" EntityType="Self.Shop" />
           <EntitySet Name="Supplier" EntityType="Self.Supplier" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <AssociationSet Name="FK_Agent_AgentType" Association="Self.FK_Agent_AgentType">
             <End Role="AgentType" EntitySet="AgentType" />
             <End Role="Agent" EntitySet="Agent" />
@@ -616,6 +624,10 @@
             <End Role="ProductType" EntitySet="ProductType" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
+          <AssociationSet Name="FK_ProductSale_Product" Association="Self.FK_ProductSale_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductSale" EntitySet="ProductSale" />
+          </AssociationSet>
           <AssociationSet Name="MaterialSupplier" Association="Self.MaterialSupplier">
             <End Role="Material" EntitySet="Material" />
             <End Role="Supplier" EntitySet="Supplier" />
@@ -626,9 +638,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище Kuzmin_ГлазкиModelContainer" CdmEntityContainer="Kuzmin_GlazkiEntities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище Kuzmin_GlazkiModelContainer" CdmEntityContainer="Kuzmin_GlazkiEntities">
           <EntitySetMapping Name="Agent">
-            <EntityTypeMapping TypeName="Kuzmin_ГлазкиModel.Agent">
+            <EntityTypeMapping TypeName="Kuzmin_GlazkiModel.Agent">
               <MappingFragment StoreEntitySet="Agent">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="AgentTypeID" ColumnName="AgentTypeID" />
@@ -645,7 +657,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AgentPriorityHistory">
-            <EntityTypeMapping TypeName="Kuzmin_ГлазкиModel.AgentPriorityHistory">
+            <EntityTypeMapping TypeName="Kuzmin_GlazkiModel.AgentPriorityHistory">
               <MappingFragment StoreEntitySet="AgentPriorityHistory">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="AgentID" ColumnName="AgentID" />
@@ -655,7 +667,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AgentType">
-            <EntityTypeMapping TypeName="Kuzmin_ГлазкиModel.AgentType">
+            <EntityTypeMapping TypeName="Kuzmin_GlazkiModel.AgentType">
               <MappingFragment StoreEntitySet="AgentType">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -664,7 +676,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Material">
-            <EntityTypeMapping TypeName="Kuzmin_ГлазкиModel.Material">
+            <EntityTypeMapping TypeName="Kuzmin_GlazkiModel.Material">
               <MappingFragment StoreEntitySet="Material">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -680,7 +692,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MaterialCountHistory">
-            <EntityTypeMapping TypeName="Kuzmin_ГлазкиModel.MaterialCountHistory">
+            <EntityTypeMapping TypeName="Kuzmin_GlazkiModel.MaterialCountHistory">
               <MappingFragment StoreEntitySet="MaterialCountHistory">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
@@ -690,7 +702,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MaterialType">
-            <EntityTypeMapping TypeName="Kuzmin_ГлазкиModel.MaterialType">
+            <EntityTypeMapping TypeName="Kuzmin_GlazkiModel.MaterialType">
               <MappingFragment StoreEntitySet="MaterialType">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -699,7 +711,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Product">
-            <EntityTypeMapping TypeName="Kuzmin_ГлазкиModel.Product">
+            <EntityTypeMapping TypeName="Kuzmin_GlazkiModel.Product">
               <MappingFragment StoreEntitySet="Product">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -714,7 +726,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ProductCostHistory">
-            <EntityTypeMapping TypeName="Kuzmin_ГлазкиModel.ProductCostHistory">
+            <EntityTypeMapping TypeName="Kuzmin_GlazkiModel.ProductCostHistory">
               <MappingFragment StoreEntitySet="ProductCostHistory">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
@@ -724,7 +736,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ProductMaterial">
-            <EntityTypeMapping TypeName="Kuzmin_ГлазкиModel.ProductMaterial">
+            <EntityTypeMapping TypeName="Kuzmin_GlazkiModel.ProductMaterial">
               <MappingFragment StoreEntitySet="ProductMaterial">
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
                 <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
@@ -733,7 +745,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ProductSale">
-            <EntityTypeMapping TypeName="Kuzmin_ГлазкиModel.ProductSale">
+            <EntityTypeMapping TypeName="Kuzmin_GlazkiModel.ProductSale">
               <MappingFragment StoreEntitySet="ProductSale">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
@@ -744,7 +756,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ProductType">
-            <EntityTypeMapping TypeName="Kuzmin_ГлазкиModel.ProductType">
+            <EntityTypeMapping TypeName="Kuzmin_GlazkiModel.ProductType">
               <MappingFragment StoreEntitySet="ProductType">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -753,7 +765,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Shop">
-            <EntityTypeMapping TypeName="Kuzmin_ГлазкиModel.Shop">
+            <EntityTypeMapping TypeName="Kuzmin_GlazkiModel.Shop">
               <MappingFragment StoreEntitySet="Shop">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -763,7 +775,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Supplier">
-            <EntityTypeMapping TypeName="Kuzmin_ГлазкиModel.Supplier">
+            <EntityTypeMapping TypeName="Kuzmin_GlazkiModel.Supplier">
               <MappingFragment StoreEntitySet="Supplier">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -774,18 +786,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="Kuzmin_ГлазкиModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <AssociationSetMapping Name="MaterialSupplier" TypeName="Kuzmin_ГлазкиModel.MaterialSupplier" StoreEntitySet="MaterialSupplier">
+          <AssociationSetMapping Name="MaterialSupplier" TypeName="Kuzmin_GlazkiModel.MaterialSupplier" StoreEntitySet="MaterialSupplier">
             <EndProperty Name="Material">
               <ScalarProperty Name="ID" ColumnName="MaterialID" />
             </EndProperty>
